@@ -191,20 +191,20 @@ class WP_DFP_Settings {
 				'#markup' => get_submit_button(),
 			),
 		);
-  	}
+	}
 
-  	/**
-  	 * Gets a prefixed input name
-  	 *
-  	 * @since 1.0
-  	 * @access protected
-  	 *
-  	 * @param  string $name An un-prefixed input name.
-  	 * @return string The prefixed input name.
-  	 */
-  	protected static function input_name( $name ) {
-  		return self::OPTION_NAME . '[' . $name . ']';
-  	}
+	/**
+	 * Gets a prefixed input name
+	 *
+	 * @since 1.0
+	 * @access protected
+	 *
+	 * @param  string $name An un-prefixed input name.
+	 * @return string The prefixed input name.
+	 */
+	protected static function input_name( $name ) {
+		return self::OPTION_NAME . '[' . $name . ']';
+	}
 
 }
 

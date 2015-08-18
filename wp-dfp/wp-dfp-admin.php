@@ -123,7 +123,7 @@ class WP_DFP_Admin {
 		add_meta_box( 'submitdiv', __( 'Actions', 'wp-dfp' ), array( $c, 'render_meta_box' ), WP_DFP::POST_TYPE, 'side', 'default' );
 	}
 
-   /**
+	/**
 	 * Renders a meta box
 	 *
 	 * @since 1.0
@@ -132,8 +132,8 @@ class WP_DFP_Admin {
 	 * @param WP_Post $post   The current post object.
 	 * @param array   $args   Any additional arguments as passed by add_meta_box()
 	 */
-   public static function render_meta_box( $post, $args = array() ) {
-   	global $wpdb;
+	public static function render_meta_box( $post, $args = array() ) {
+		global $wpdb;
 
 		$meta_box = array_shift( $args );
 		$values = array();
@@ -175,34 +175,34 @@ class WP_DFP_Admin {
 					$index ++;
 				}
 
-		  		$form = array(
-			 		'sizing_rules' => array(
-			 			'#label' => '',
-			 			'#description' => __( 'Click "Add Rule" below to specify a new sizing rule.', 'wp-dfp' ),
-			 			'wp_dfp_sizing_rules' => array(
+				$form = array(
+					'sizing_rules' => array(
+						'#label' => '',
+						'#description' => __( 'Click "Add Rule" below to specify a new sizing rule.', 'wp-dfp' ),
+						'wp_dfp_sizing_rules' => array(
 							'#type' => 'multiple',
 							'#add_link' => __( 'Add Rule', 'wp-dfp' ),
 							'#multiple' => array(
-					  			'container_width' => array(
-					  				'#type' => 'text',
-					  				'#label' => __( 'Container Width', 'wp-dfp' ),
-					  				'#description' => __( 'If the calculated ad container width is >= than this value and is less than the next largest specified ad container width, then the ad sizes defined below will be used for this ad slot.', 'wp-dfp' ),
-					  			),
-					  			'sizes' => array(
-					  				'#type' => 'textarea',
-					  				'#label' => __( 'Ad Sizes', 'wp-dfp' ),
-					  				'#attrs' => array( 'rows' => 5 ),
-					  				'#description' => __( 'One ad size per line. Example: 950x100 where 950 is the width of the ad and 100 is the height of the ad.', 'wp-dfp' )
-					  			),
+								'container_width' => array(
+									'#type' => 'text',
+									'#label' => __( 'Container Width', 'wp-dfp' ),
+									'#description' => __( 'If the calculated ad container width is >= than this value and is less than the next largest specified ad container width, then the ad sizes defined below will be used for this ad slot.', 'wp-dfp' ),
+								),
+								'sizes' => array(
+									'#type' => 'textarea',
+									'#label' => __( 'Ad Sizes', 'wp-dfp' ),
+									'#attrs' => array( 'rows' => 5 ),
+									'#description' => __( 'One ad size per line. Example: 950x100 where 950 is the width of the ad and 100 is the height of the ad.', 'wp-dfp' )
+								),
 							),
 						),
-			 		),
-		  		);
-		  	break;
+					),
+				);
+			break;
 
-		  	case 'submitdiv' :
-		  		$delete_markup = '';
-		  		if ( current_user_can( "delete_post", $post->ID ) ) {
+			case 'submitdiv' :
+				$delete_markup = '';
+				if ( current_user_can( "delete_post", $post->ID ) ) {
 					$delete_text = !EMPTY_TRASH_DAYS ? __( 'Delete Permanently' ) :  __( 'Move to Trash' );
 					$delete_markup = '<div id="delete-action"><a class="submitdelete deletion" href="' . get_delete_post_link( $post->ID ) . '">' . $delete_text . '</a></div>';
 				}
@@ -217,77 +217,77 @@ class WP_DFP_Admin {
 						<div class="clear"></div>
 					</div>';
 
-		  		echo $markup;
-		  	break;
-	 	}
+				echo $markup;
+			break;
+		}
 
-	 	echo WP_Forms_API::render_form( $form, $values );
-   }
+		echo WP_Forms_API::render_form( $form, $values );
+	}
 
-   /**
-    * Before an ad slot is saved to the db make some changes
-    *
-    * @since 1.0
-    * @filter wp_insert_post_data
-    *
-    * @param array $data    An array of slashed post data.
+	/**
+	 * Before an ad slot is saved to the db make some changes
+	 *
+	 * @since 1.0
+	 * @filter wp_insert_post_data
+	 *
+	 * @param array $data    An array of slashed post data.
 	 * @param array $postarr An array of sanitized, but otherwise unmodified post data.
 	 *
 	 * @return Modified $data.
-    */
-   public static function insert_post_data( $data, $postarr ) {
-   	if ( $postarr['post_type'] == WP_DFP::POST_TYPE ) {
-   		$data['post_name'] = sanitize_title_with_dashes( $postarr['wp_dfp_slot_name'], '', 'save' );
-   		$data['post_title'] = $postarr['wp_dfp_slot_name'];
-   	}
+	 */
+	public static function insert_post_data( $data, $postarr ) {
+		if ( $postarr['post_type'] == WP_DFP::POST_TYPE ) {
+			$data['post_name'] = sanitize_title_with_dashes( $postarr['wp_dfp_slot_name'], '', 'save' );
+			$data['post_title'] = $postarr['wp_dfp_slot_name'];
+		}
 
-   	return $data;
-   }
+		return $data;
+	}
 
-   /**
-    * When an ad slot is saved, performs some extra processing
-    *
-    * @since 1.0
-    * @action 1.0
-    *
-    * @param int $post_id The ID of the post that was created/updated.
-    */
-   public static function save_post( $post_id ) {
-   	if ( wp_is_post_revision( $post_id ) ) {
-   		return;
-   	}
+	/**
+	 * When an ad slot is saved, performs some extra processing
+	 *
+	 * @since 1.0
+	 * @action 1.0
+	 *
+	 * @param int $post_id The ID of the post that was created/updated.
+	 */
+	public static function save_post( $post_id ) {
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+		}
 
-   	$rules = array();
-   	if ( is_array( $_POST[ 'wp_dfp_sizing_rules' ] ) ) {
-	   	foreach ( $_POST[ 'wp_dfp_sizing_rules' ] as $values ) {
-	   		$key = intval( $values['container_width'] );
-	   		$rules[ $key ] = array();
-	   		$sizes = explode( "\n", $values['sizes'] );
+		$rules = array();
+		if ( is_array( $_POST[ 'wp_dfp_sizing_rules' ] ) ) {
+			foreach ( $_POST[ 'wp_dfp_sizing_rules' ] as $values ) {
+				$key = intval( $values['container_width'] );
+				$rules[ $key ] = array();
+				$sizes = explode( "\n", $values['sizes'] );
 
-	   		foreach ( $sizes as $size ) {
-	   			// split size string into an array
-	   			$size = explode( 'x', strtolower( $size ) );
-	   			// remove any extra whitespace
-	   			$size = array_map( 'trim', $size );
-	   			// make sure values are integers
-	   			$size = array_map( 'intval', $size );
+				foreach ( $sizes as $size ) {
+					// split size string into an array
+					$size = explode( 'x', strtolower( $size ) );
+					// remove any extra whitespace
+					$size = array_map( 'trim', $size );
+					// make sure values are integers
+					$size = array_map( 'intval', $size );
 
-	   			$rules[ $key ][] = $size;
-	   		}
-	   	}
+					$rules[ $key ][] = $size;
+				}
+			}
 
-	   	// Sort rules by container width highest to lowest
-	   	krsort( $rules );
-	   }
+			// Sort rules by container width highest to lowest
+			krsort( $rules );
+		}
 
-	   // Add sizing rules as postmeta
-	   update_post_meta( $post_id, WP_DFP::META_SIZING_RULES, $rules );
+		// Add sizing rules as postmeta
+		update_post_meta( $post_id, WP_DFP::META_SIZING_RULES, $rules );
 
-	   // Out-Of-Page?
-	   update_post_meta( $post_id, WP_DFP::META_OOP, isset( $_POST['wp_dfp_oop'] ) ? $_POST['wp_dfp_oop'] : 0 );
-   }
+		// Out-Of-Page?
+		update_post_meta( $post_id, WP_DFP::META_OOP, isset( $_POST['wp_dfp_oop'] ) ? $_POST['wp_dfp_oop'] : 0 );
+	}
 
-   /**
+	/**
 	 * Changes the "Enter title here" text on the post edit screen
 	 *
 	 * @since 1.0
@@ -295,13 +295,13 @@ class WP_DFP_Admin {
 	 *
 	 * @return string
 	 */
-   public static function change_enter_title_here_text( $text ) {
+	public static function change_enter_title_here_text( $text ) {
 		if ( get_current_screen()->post_type == WP_DFP::POST_TYPE ) {
-		  	$text = __( 'Enter Ad slot name here', 'wp-dfp' );
-	 	}
+			$text = __( 'Enter Ad slot name here', 'wp-dfp' );
+		}
 
-	 	return $text;
-  	}
+		return $text;
+	}
 
 }
 

@@ -20,12 +20,12 @@ class WP_DFP_Frontend {
 	 */
 	protected static $targeting;
 
-   /**
+	/**
 	 * Initialization functionality
 	 *
 	 * @since 1.0
 	 */
-   public static function init() {
+	public static function init() {
 		$c = get_called_class();
 
 		add_action( 'wp_enqueue_scripts', array( $c, 'register_scripts' ) );
@@ -33,18 +33,18 @@ class WP_DFP_Frontend {
 		add_shortcode( 'wp_dfp_ad', array( $c, 'ad_shortcode') );
   }
 
-   /**
+	/**
 	 * Registers public javascript files that can be enqueued later on.
 	 *
 	 * @since 1.0
 	 * @action wp_enqueue_scripts
 	 */
-  	public static function register_scripts() {
+	public static function register_scripts() {
 		wp_register_script( 'jquery-dfp', WP_DFP::url( 'js/jquery.dfp.js' ), array( 'jquery' ), '2.1.0', TRUE );
 		wp_register_script( 'wp-dfp', WP_DFP::url( 'js/wp-dfp.js' ), array( 'jquery-dfp' ), WP_DFP::VERSION, TRUE );
-  	}
+	}
 
-   /**
+	/**
 	 * Renders markup for the specified ad slot
 	 *
 	 * @since 1.0
@@ -53,20 +53,20 @@ class WP_DFP_Frontend {
 	 * @param string $slot   The name of the slot to render.
 	 * @param string $action Optional. What to do with the rendered markup. Either "display" or "get".
 	 */
-  	public static function render_ad( $slot, $action = 'display' ) {
-  		self::get_targeting();
+	public static function render_ad( $slot, $action = 'display' ) {
+		self::get_targeting();
 
 		$markup = wp_dfp_ad_slot( $slot )->markup();
 
 		if ( $action == 'display' ) {
 			echo $markup;
-	 	}
-	 	else {
+		}
+		else {
 			return $markup;
-	 	}
-  	}
+		}
+	}
 
-   /**
+	/**
 	 * Gets markup for the [wp_dfp_ad] shortcode
 	 *
 	 * @since 1.0
@@ -75,27 +75,27 @@ class WP_DFP_Frontend {
 	 *
 	 * @return string      The generated shortcode markup.
 	 */
-  	public static function ad_shortcode( $atts ) {
-  		$atts = shortcode_atts( array( 'slot' => null ), $atts );
-  		$markup = '';
+	public static function ad_shortcode( $atts ) {
+		$atts = shortcode_atts( array( 'slot' => null ), $atts );
+		$markup = '';
 
-  		extract( $atts );
+		extract( $atts );
 
-  		if ( $slot ) {
-  			$markup = self::render_ad( $slot, 'get' );
-  		}
+		if ( $slot ) {
+			$markup = self::render_ad( $slot, 'get' );
+		}
 
-  		return $markup;
-  	}
+		return $markup;
+	}
 
-   /**
+	/**
 	 * Generates the targeting for the current content being displayed
 	 *
 	 * @since 1.0
 	 *
 	 * @return array
 	 */
-  	public static function get_targeting() {
+	public static function get_targeting() {
 		if ( is_array( self::$targeting ) ) {
 			return;
 		}
@@ -107,17 +107,17 @@ class WP_DFP_Frontend {
 		WP_DFP::inc( 'wp-dfp-settings.php' );
 
 		// Helper function for converting all array values to strings
-	 	$to_string = create_function( '$v', 'return is_array( $v ) ? $v : (string) $v;' );
+		$to_string = create_function( '$v', 'return is_array( $v ) ? $v : (string) $v;' );
 
-	 	// Define targeting rules for home/front page
-	 	if ( is_front_page() || is_home() ) {
+		// Define targeting rules for home/front page
+		if ( is_front_page() || is_home() ) {
 			self::$targeting['post_name']  = 'home';
 			self::$targeting['post_title'] = 'Home';
-		  	self::$targeting['post_id']    = 0;
-		  	self::$targeting['post_type']  = '';
+			self::$targeting['post_id']    = 0;
+			self::$targeting['post_type']  = '';
 		}
 		// Define targeting rules for single posts, pages, etc
-	 	elseif ( is_singular() ) {
+		elseif ( is_singular() ) {
 			global $post;
 
 			$tag_terms = get_the_terms( $post->ID, 'post_tag' );
@@ -188,11 +188,11 @@ class WP_DFP_Frontend {
 
 		wp_enqueue_script( 'wp-dfp' );
 		wp_localize_script( 'wp-dfp', 'wpdfp', array(
-	   	'network'   => $network_code,
-	   	'targeting' => array_map( $to_string, self::$targeting ),
-	   	'slots'     => $slots,
-	   	'messages'  => $messages,
-	   ) );
+			'network'   => $network_code,
+			'targeting' => array_map( $to_string, self::$targeting ),
+			'slots'     => $slots,
+			'messages'  => $messages,
+		) );
   }
 
 }

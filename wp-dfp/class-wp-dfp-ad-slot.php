@@ -92,58 +92,58 @@ class WP_DFP_Ad_Slot {
 	 * @return string
 	 */
 	public function markup() {
-	   /**
-	    * Filter the ad container HTML attributes array
-	    *
-	    * @since 1.0
-	    *
-	    * @param array  $classes An array of HTML attributes.
-	    * @param string $slot    The ad slot name.
-	    */
-	   $container_atts = apply_filters( 'wp_dfp_ad_slot/container_atts', array(
-	   	'class' => 'wp-dfp-ad-slot',
-	   	'id'    => 'wp-dfp-ad-slot-' . $this->slot()
-	   ), $this->slot );
+		/**
+		 * Filter the ad container HTML attributes array
+		 *
+		 * @since 1.0
+		 *
+		 * @param array  $classes An array of HTML attributes.
+		 * @param string $slot    The ad slot name.
+		 */
+		$container_atts = apply_filters( 'wp_dfp_ad_slot/container_atts', array(
+			'class' => 'wp-dfp-ad-slot',
+			'id'    => 'wp-dfp-ad-slot-' . $this->slot()
+		), $this->slot );
 
-	   /**
-	    * Filter the ad unit HTML attributes array
-	    *
-	    * @since 1.0
-	    *
-	    * @param array  $attributes An array of HTML attributes.
-	    * @param string $slot       The ad slot name.
-	    */
-	   $ad_atts = apply_filters( 'wp_dfp_ad_slot/ad_atts', array(
-	   	'class' => 'wp-dfp-ad-unit',
-	   	'id'    => 'wp-dfp-ad-unit-' . $this->slot(),
-	   ), $this->slot );
+		/**
+		 * Filter the ad unit HTML attributes array
+		 *
+		 * @since 1.0
+		 *
+		 * @param array  $attributes An array of HTML attributes.
+		 * @param string $slot       The ad slot name.
+		 */
+		$ad_atts = apply_filters( 'wp_dfp_ad_slot/ad_atts', array(
+			'class' => 'wp-dfp-ad-unit',
+			'id'    => 'wp-dfp-ad-unit-' . $this->slot(),
+		), $this->slot );
 
-	   // Set the size mapping for this ad unit
-	   $ad_atts['data-size-mapping'] = $this->slot();
+		// Set the size mapping for this ad unit
+		$ad_atts['data-size-mapping'] = $this->slot();
 
-	   // Set the name of this adunit
-	   $ad_atts['data-adunit'] = $this->slot();
+		// Set the name of this adunit
+		$ad_atts['data-adunit'] = $this->slot();
 
-	   if ( $this->meta( 'oop' ) ) {
-	   	$ad_atts['data-outofpage'] = 'true';
-	   }
-	   else {
-	   	$ad_atts['style'] = 'display: none';
-	   }
+		if ( $this->meta( 'oop' ) ) {
+			$ad_atts['data-outofpage'] = 'true';
+		}
+		else {
+			$ad_atts['style'] = 'display: none';
+		}
 
-	  	$markup = '
-	      <div ' . wp_parse_html_atts( $container_atts ) . '>
+		$markup = '
+			<div ' . wp_parse_html_atts( $container_atts ) . '>
 				<div ' . wp_parse_html_atts( $ad_atts ) . '></div>
-	     	</div>';
+			</div>';
 
-    	/**
-    	 * Filter the full ad unit HTML markup
-    	 *
-    	 * @since 1.0
-    	 *
-    	 * @param string $markup The full HTML markup.
-    	 * @param string $slot   The ad slot name.
-    	 */
+		/**
+		 * Filter the full ad unit HTML markup
+		 *
+		 * @since 1.0
+		 *
+		 * @param string $markup The full HTML markup.
+		 * @param string $slot   The ad slot name.
+		 */
 		return apply_filters( 'wp_dfp_ad_slot/markup', $markup, $this->slot() );
 	}
 
