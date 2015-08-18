@@ -30,7 +30,7 @@ class WP_DFP_Frontend {
 
 		add_action( 'wp_enqueue_scripts', array( $c, 'register_scripts' ) );
 		add_action( 'wp_dfp_render_ad', array( $c, 'render_ad' ) );
-		add_shortcode( 'wp_dfp_ad', array( $c, 'ad_shortcode') );
+		add_shortcode( 'wp_dfp_ad', array( $c, 'ad_shortcode' ) );
   }
 
 	/**
