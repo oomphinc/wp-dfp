@@ -65,11 +65,11 @@ class WP_DFP_Admin {
 
 		switch ( $column_name ) {
 			case 'wp_dfp_shortcode' :
-				echo '<code>[wp_dfp_ad slot="' . $post->post_name . '"]</code>';
+				echo '<code>[wp_dfp_ad slot="' . $post->post_title . '"]</code>';
 			break;
 
 			case 'wp_dfp_php_code' :
-				echo '<code>do_action(\'wp_dfp_render_ad\', \'' . $post->post_name . '\');</code>';
+				echo '<code>do_action(\'wp_dfp_render_ad\', \'' . $post->post_title . '\');</code>';
 			break;
 		}
 	}
