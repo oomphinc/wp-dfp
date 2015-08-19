@@ -185,7 +185,7 @@ gulp.task('info', function() {
 	matches = content.match(/\*(.|[\r\n])*?\*/);
 	content = content
 		.replace(matches[0], replace)
-		.replace("const VERSION = '1.0';", "const VERSION = '" + pkg.version + "';")
+		.replace(/const VERSION = '([^']+)'/gm, "const VERSION = '" + pkg.version + "'")
 
 	fs.writeFileSync(filename, content, 'utf-8');
 });
