@@ -161,7 +161,7 @@ gulp.task('makepot', function() {
 } );
 
 // Build plugin header using the data from package.json
-gulp.task('header', function() {
+gulp.task('info', function() {
 	var filename = 'wp-dfp/wp-dfp.php'
 	  , content  = fs.readFileSync(filename, 'utf-8')
 	  , replace  = ''
@@ -198,7 +198,7 @@ gulp.task('compress', function() {
 });
 
 // Just build files including externals
-gulp.task('build', ['externals', 'frontend', 'makepot', 'header']);
+gulp.task('build', ['externals', 'frontend', 'makepot', 'info']);
 
 // Run all tasks by default
 gulp.task('default', ['build', 'php']);
@@ -207,7 +207,4 @@ gulp.task('default', ['build', 'php']);
 gulp.task('frontend', ['externals', 'styles', 'scripts']);
 
 // Build for development: don't copy externals, don't merge scripts, watch
-gulp.task('develop', ['link-externals', 'styles', 'scripts', 'header', 'watch']);
-
-// Package up as zip file
-gulp.task('package', ['build', 'compress']);
+gulp.task('develop', ['link-externals', 'styles', 'scripts', 'info', 'watch']);
