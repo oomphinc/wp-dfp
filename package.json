@@ -24,12 +24,9 @@
   "devDependencies": {
     "del": "^1.2.1",
     "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^2.3.1",
-    "gulp-compass": "^2.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-pixrem": "^0.2.3",
     "gulp-plumber": "^1.0.1",
-    "gulp-replace": "^0.5.4",
     "gulp-ruby-sass": "^1.1.0",
     "gulp-shell": "^0.4.2",
     "gulp-sourcemaps": "^1.5.2",
