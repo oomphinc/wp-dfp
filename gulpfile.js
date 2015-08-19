@@ -1,29 +1,29 @@
 // Plugins
-var gulp = require('gulp')
-  , fs = require('fs')
-  , del = require('del')
-  , exec = require('child_process').exec
-  , watch = require('gulp-watch')
-  , sass = require('gulp-ruby-sass')
-  , shell = require('gulp-shell')
-  , autoprefixer = require('gulp-autoprefixer')
-  , concat = require('gulp-concat')
-  , uglify = require('gulp-uglify')
-  , rem = require('gulp-pixrem')
-  , compass = require('gulp-compass')
-  , plumber = require('gulp-plumber')
-  , gutil = require('gulp-util')
-  , symlink = require('gulp-sym')
+var gulp       = require('gulp')
+  , fs         = require('fs')
+  , del        = require('del')
+  , exec       = require('child_process').exec
+  , watch      = require('gulp-watch')
+  , sass       = require('gulp-ruby-sass')
+  , shell      = require('gulp-shell')
+  , concat     = require('gulp-concat')
+  , uglify     = require('gulp-uglify')
+  , rem        = require('gulp-pixrem')
+  , plumber    = require('gulp-plumber')
+  , gutil      = require('gulp-util')
+  , symlink    = require('gulp-sym')
   , sourcemaps = require('gulp-sourcemaps')
-  , wpPot = require('gulp-wp-pot');
+  , wpPot      = require('gulp-wp-pot')
+  , zip        = require('gulp-zip')
+  , path       = require('path')
+  , pkg        = JSON.parse(fs.readFileSync('./package.json'))
+;
 
 // Outputs an error through plumber plugin
 var onError = function (err) {
   gutil.beep();
   console.log(err);
 };
-
-// Gets the version
 
 /**
  * External plugins, as { src: dest, ... }
@@ -32,9 +32,9 @@ var onError = function (err) {
  */
 var external_plugins = {
   'wp-forms-api/wp-forms-api': {
-	 gulp: 'wp-forms-api/gulpfile.js',
-	 dest: 'wp-forms-api',
-  }
+		gulp: 'wp-forms-api/gulpfile.js',
+		dest: 'wp-forms-api',
+  	}
 };
 
 /**
@@ -160,9 +160,42 @@ gulp.task('makepot', function() {
 		.pipe(gulp.dest('wp-dfp/languages'));
 } );
 
+// Build plugin header using the data from package.json
+gulp.task('header', function() {
+	var filename = 'wp-dfp/wp-dfp.php'
+	  , content  = fs.readFileSync(filename, 'utf-8')
+	  , replace  = ''
+	  , tpl      = fs.readFileSync('./header.txt', 'utf-8')
+	  , d        = new Date()
+	;
+
+	replace = tpl
+		.replace('{{pluginName}}', pkg.pluginName)
+		.replace('{{homepage}}', pkg.homepage)
+		.replace('{{description}}', pkg.description)
+		.replace('{{version}}', pkg.version)
+		.replace(/\{\{author\.name\}\}/g, pkg.author.name)
+		.replace(/\{\{author\.url\}\}/g, pkg.author.url)
+		.replace('{{license}}', pkg.license)
+		.replace('{{year}}', d.getFullYear())
+		// remove linefeed after last *, otherwise the comment would break
+		.replace(/^\*[\r|\r\n]$/gm, '*')
+	;
+
+	matches = content.match(/\*(.|[\r\n])*?\*/);
+
+	fs.writeFileSync(filename, content.replace(matches[0], replace), 'utf-8');
+});
+
+// Compress compiled plugin into zip file
+gulp.task('compress', function() {
+	gulp.src('wp-dfp/*', { base: '.' })
+		.pipe(zip('wp-dfp-' + pkg.version + '.zip'))
+		.pipe(gulp.dest('dist'));
+});
 
 // Just build files including externals
-gulp.task('build', ['externals', 'frontend', 'makepot']);
+gulp.task('build', ['externals', 'frontend', 'makepot', 'header']);
 
 // Run all tasks by default
 gulp.task('default', ['build', 'php']);
@@ -171,4 +204,7 @@ gulp.task('default', ['build', 'php']);
 gulp.task('frontend', ['externals', 'styles', 'scripts']);
 
 // Build for development: don't copy externals, don't merge scripts, watch
-gulp.task('develop', ['link-externals', 'styles', 'scripts', 'watch']);
+gulp.task('develop', ['link-externals', 'styles', 'scripts', 'header', 'watch']);
+
+// Package up as zip file
+gulp.task('package', ['build', 'compress']);
