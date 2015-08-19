@@ -183,8 +183,11 @@ gulp.task('header', function() {
 	;
 
 	matches = content.match(/\*(.|[\r\n])*?\*/);
+	content = content
+		.replace(matches[0], replace)
+		.replace("const VERSION = '1.0';", "const VERSION = '" + pkg.version + "';")
 
-	fs.writeFileSync(filename, content.replace(matches[0], replace), 'utf-8');
+	fs.writeFileSync(filename, content, 'utf-8');
 });
 
 // Compress compiled plugin into zip file
