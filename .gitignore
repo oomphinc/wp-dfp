@@ -1,6 +1,8 @@
 
 .sass-cache
+dist
 node_modules
 wp-dfp/css/*
 wp-dfp/js/*
 wp-dfp/externals/*
+**/*.zip
