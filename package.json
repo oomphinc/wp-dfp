@@ -1,17 +1,26 @@
 {
-  "name": "WP-DFP",
-  "version": "0.0.0",
-  "description": "Gulp dependencies for WP DFP plugin",
+  "name": "wp-dfp",
+  "pluginName": "WP DFP",
+  "version": "1.0.0",
+  "description": "A simple & intuitive interface for displaying Google ads on your WP site",
+  "homepage": "https://github.com/oomphinc/wp-dfp",
   "main": "gulpfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/oomphinc/wp-dfp.git"
   },
-  "author": "",
-  "license": "GPL2",
+  "author": {
+    "name": "Oomph, Inc.",
+    "url": "http://www.oomphinc.com"
+  },
+  "contributors": [
+    {
+      "name": "Jonathan Cowher",
+      "email": "jcowher@oomphinc.com",
+      "url": "http://www.oomphinc.com/people/jcowher/"
+    }
+  ],
+  "license": "GPL2 or later",
   "devDependencies": {
     "del": "^1.2.1",
     "gulp": "^3.9.0",
@@ -20,6 +29,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-pixrem": "^0.2.3",
     "gulp-plumber": "^1.0.1",
+    "gulp-replace": "^0.5.4",
     "gulp-ruby-sass": "^1.1.0",
     "gulp-shell": "^0.4.2",
     "gulp-sourcemaps": "^1.5.2",
@@ -27,6 +37,7 @@
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.6",
     "gulp-watch": "^4.3.4",
-    "gulp-wp-pot": "^1.0.3"
+    "gulp-wp-pot": "^1.0.3",
+    "gulp-zip": "^3.0.2"
   }
 }
