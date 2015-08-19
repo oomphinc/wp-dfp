@@ -192,7 +192,7 @@ gulp.task('info', function() {
 
 // Compress compiled plugin into zip file
 gulp.task('compress', function() {
-	gulp.src('wp-dfp/*', { base: '.' })
+	gulp.src('wp-dfp/**', { base: '.' })
 		.pipe(zip('wp-dfp-' + pkg.version + '.zip'))
 		.pipe(gulp.dest('dist'));
 });
