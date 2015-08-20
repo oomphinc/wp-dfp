@@ -1,5 +1,5 @@
 === WP DFP ===
-Contributors: webgeekconsulting
+Contributors: webgeekconsulting, thinkoomph
 Tags: google dfp, google ads
 Requires at least: 4.1
 Tested up to: 4.3
@@ -29,5 +29,4 @@ ad container's width **NOT** the browser viewport.
 == Changelog ==
 
 = 1.0.0 =
-
 * Initial release
