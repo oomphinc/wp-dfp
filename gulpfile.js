@@ -198,7 +198,7 @@ gulp.task('compress', function() {
 });
 
 // Just build files including externals
-gulp.task('build', ['externals', 'frontend', 'makepot', 'info']);
+gulp.task('build', ['frontend', 'makepot', 'info']);
 
 // Run all tasks by default
 gulp.task('default', ['build', 'php']);
