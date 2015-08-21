@@ -29,17 +29,19 @@
 
 				// Using the defined sizing rules for this ad slot, determine which set
 				// of ad sizes should be used.
-				$.each( rules, function( width, sizes ) {
-					width = parseInt( width );
-					if ( $container.width() >= width ) {
-						adSizes = rules[ width ];
-				  	}
-				} );
+				if ( rules != 'oop' ) {
+					$.each( rules, function( width, sizes ) {
+						width = parseInt( width );
+						if ( $container.width() >= width ) {
+							adSizes = rules[ width ];
+					  	}
+					} );
 
-				if ( adSizes ) {
-				  	sizeMapping[ id ] = [
-				  		{ browser: [ 0, 0 ], ad_sizes: adSizes }
-				  	];
+					if ( adSizes ) {
+					  	sizeMapping[ id ] = [
+					  		{ browser: [ 0, 0 ], ad_sizes: adSizes }
+					  	];
+					}
 				}
 		  	} );
 		} );
