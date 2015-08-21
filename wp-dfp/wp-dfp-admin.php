@@ -359,7 +359,7 @@ class WP_DFP_Admin {
 	 * @return Modified $data.
 	 */
 	public static function insert_post_data( $data, $postarr ) {
-		if ( $postarr['post_type'] == WP_DFP::POST_TYPE && !self::$is_cloning ) {
+		if ( $postarr['post_type'] == WP_DFP::POST_TYPE && isset( $postarr['_wp_dfp_slot_name'] ) ) {
 			$data['post_name'] = sanitize_title_with_dashes( $postarr['_wp_dfp_slot_name'], '', 'save' );
 			$data['post_title'] = $postarr['wp_dfp_slot_name'];
 		}
@@ -376,7 +376,7 @@ class WP_DFP_Admin {
 	 * @param int $post_id The ID of the post that was created/updated.
 	 */
 	public static function save_post( $post_id ) {
-		if ( wp_is_post_revision( $post_id ) || self::$is_cloning ) {
+		if ( wp_is_post_revision( $post_id ) || !isset( $_POST[ WP_DFP::META_SIZING_RULES ] ) ) {
 			return;
 		}
 
