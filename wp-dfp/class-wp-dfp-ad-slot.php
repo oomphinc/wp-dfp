@@ -109,13 +109,13 @@ class WP_DFP_Ad_Slot {
 		 *
 		 * @since 1.0
 		 *
-		 * @param array  $classes An array of HTML attributes.
-		 * @param string $slot    The ad slot name.
+		 * @param array  $attributes An array of HTML attributes.
+		 * @param string $slot       The ad slot name.
 		 */
 		$container_atts = apply_filters( 'wp_dfp_ad_slot/container_atts', array(
 			'class' => 'wp-dfp-ad-slot',
 			'id'    => 'wp-dfp-ad-slot-' . $this->slot()
-		), $this->slot );
+		), $this->slot() );
 
 		/**
 		 * Filter the ad unit HTML attributes array
@@ -128,7 +128,7 @@ class WP_DFP_Ad_Slot {
 		$ad_atts = apply_filters( 'wp_dfp_ad_slot/ad_atts', array(
 			'class' => 'wp-dfp-ad-unit',
 			'id'    => 'wp-dfp-ad-unit-' . $this->slot(),
-		), $this->slot );
+		), $this->slot() );
 
 		// Set the size mapping for this ad unit
 		$ad_atts['data-size-mapping'] = $this->slot();
