@@ -9,75 +9,87 @@ msgstr ""
 "PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n\n"
 
-#: wp-dfp/wp-dfp-admin.php:43
-msgid "WP_DFP: You have not specified your DFP network code. You can set your network code by going to the <a href="%s">WP DFP settings page</a>"
-msgstr ""
-
-#: wp-dfp/wp-dfp-admin.php:46
-msgid "WP_DFP: A DFP network code is required for WP DFP to function correctly. Please have an admin set a network code ASAP."
-msgstr ""
-
-#: wp-dfp/wp-dfp-admin.php:90, wp-dfp/wp-dfp-admin.php:149
-msgid "Slot Name"
-msgstr ""
-
-#: wp-dfp/wp-dfp-admin.php:91
-msgid "Shortcode"
-msgstr ""
-
-#: wp-dfp/wp-dfp-admin.php:92
-msgid "PHP Code"
-msgstr ""
-
-#: wp-dfp/wp-dfp-admin.php:119
-msgid "Slot Config"
-msgstr ""
-
-#: wp-dfp/wp-dfp-admin.php:121
-msgid "Sizing Rules"
-msgstr ""
-
-#: wp-dfp/wp-dfp-admin.php:123
-msgid "Actions"
+#: wp-dfp/wp-dfp-admin.php:82
+msgid "Clone"
 msgstr ""
 
 #: wp-dfp/wp-dfp-admin.php:151
-msgid "Enter the name of the slot as found in DFP. Do not include your network ID!"
+msgid "WP_DFP: You have not specified your DFP network code. You can set your network code by going to the <a href="%s">WP DFP settings page</a>"
 msgstr ""
 
 #: wp-dfp/wp-dfp-admin.php:154
+msgid "WP_DFP: A DFP network code is required for WP DFP to function correctly. Please have an admin set a network code ASAP."
+msgstr ""
+
+#: wp-dfp/wp-dfp-admin.php:203, wp-dfp/wp-dfp-admin.php:263
+msgid "Slot Name"
+msgstr ""
+
+#: wp-dfp/wp-dfp-admin.php:204
+msgid "Slot Path"
+msgstr ""
+
+#: wp-dfp/wp-dfp-admin.php:205
+msgid "Shortcode"
+msgstr ""
+
+#: wp-dfp/wp-dfp-admin.php:206
+msgid "PHP Code"
+msgstr ""
+
+#: wp-dfp/wp-dfp-admin.php:233
+msgid "Slot Config"
+msgstr ""
+
+#: wp-dfp/wp-dfp-admin.php:235
+msgid "Sizing Rules"
+msgstr ""
+
+#: wp-dfp/wp-dfp-admin.php:237
+msgid "Actions"
+msgstr ""
+
+#: wp-dfp/wp-dfp-admin.php:265
+msgid "Enter the name of the slot as found in DFP. Do not include your network ID!"
+msgstr ""
+
+#: wp-dfp/wp-dfp-admin.php:268
 msgid "This is an out-of-page slot."
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:181
+#: wp-dfp/wp-dfp-admin.php:295
 msgid "Click "Add Rule" below to specify a new sizing rule."
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:184
+#: wp-dfp/wp-dfp-admin.php:298
 msgid "Add Rule"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:188
+#: wp-dfp/wp-dfp-admin.php:302
 msgid "Container Width"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:189
+#: wp-dfp/wp-dfp-admin.php:303
 msgid "If the calculated ad container width is >= than this value and is less than the next largest specified ad container width, then the ad sizes defined below will be used for this ad slot."
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:193
+#: wp-dfp/wp-dfp-admin.php:307
 msgid "Ad Sizes"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:195
+#: wp-dfp/wp-dfp-admin.php:309
 msgid "One ad size per line. Example: 950x100 where 950 is the width of the ad and 100 is the height of the ad."
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:215
+#: wp-dfp/wp-dfp-admin.php:328
+msgid "Clone this slot"
+msgstr ""
+
+#: wp-dfp/wp-dfp-admin.php:336
 msgid "Save Ad Slot"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:300
+#: wp-dfp/wp-dfp-admin.php:421
 msgid "Enter Ad slot name here"
 msgstr ""
 
