@@ -20,6 +20,17 @@ class WP_DFP_Ad_Slot {
 	protected $post;
 
 	/**
+	 * Data related to the ad units that are currently being displayed
+	 *
+	 * Used to ensure unique HTML id across the page
+	 *
+	 * @since 1.0
+	 * @access protected
+	 * @var array
+	 */
+	protected static $incrementor = array();
+
+	/**
 	 * Constructor method
 	 *
 	 * @since 1.0
@@ -97,6 +108,25 @@ class WP_DFP_Ad_Slot {
 	}
 
 	/**
+	 * Gets a unique HTML id attribute for the value passed
+	 *
+	 * @since 1.1.1
+	 *
+	 * @param  string $id An HTML id attribute
+	 * @return string     A unique HTML id attribute.
+	 */
+	protected function get_id( $id ) {
+		if ( !array_key_exists( $id, self::$incrementor ) ) {
+			self::$incrementor[ $id ] = '';
+		}
+		else {
+			self::$incrementor[ $id ] += 1;
+		}
+
+		return $id . ( empty( self::$incrementor[ $id ] ) ? '' : '-' . self::$incrementor[ $id ] );
+	}
+
+	/**
 	 * Gets the display markup for the ad slot
 	 *
 	 * @since 1.0
@@ -118,8 +148,13 @@ class WP_DFP_Ad_Slot {
 		 */
 		$container_atts = apply_filters( 'wp_dfp_ad_slot/container_atts', array(
 			'class' => 'wp-dfp-ad-slot',
-			'id'    => 'wp-dfp-ad-slot-' . $this->slot()
+			'id'    => $this->get_id( 'wp-dfp-ad-slot-' . $this->slot() ),
 		), $this->slot() );
+
+		$classes = array( 'wp-dfp-ad-unit', 'wp-dfp-ad-unit-' . $this->post->post_title );
+		if ( $this->meta( WP_DFP::META_OOP ) ) {
+			$classes[] = 'wp-dfp-ad-unit-oop';
+		}
 
 		/**
 		 * Filter the ad unit HTML attributes array
@@ -130,8 +165,8 @@ class WP_DFP_Ad_Slot {
 		 * @param string $slot       The ad slot name.
 		 */
 		$ad_atts = apply_filters( 'wp_dfp_ad_slot/ad_atts', array(
-			'class' => 'wp-dfp-ad-unit',
-			'id'    => 'wp-dfp-ad-unit-' . $this->slot(),
+			'class' => $classes,
+			'id'    => $this->get_id( 'wp-dfp-ad-unit-' . $this->post->post_title ),
 		), $this->slot() );
 
 		// Set the size mapping for this ad unit
