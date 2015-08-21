@@ -94,7 +94,7 @@ class WP_DFP_Settings {
 	 */
 	public static function admin_menu_items() {
 		$c = get_called_class();
-		add_options_page( __( 'DFP Ad Settings', 'wp-dfp' ), __( 'DFP Ad Settings' ), 'manage_options', 'wp_dfp_settings', array( $c, 'settings_page' ) );
+		add_submenu_page( 'edit.php?post_type=' . WP_DFP::POST_TYPE, __( 'DFP Ad Settings', 'wp-dfp' ), __( 'Settings' ), 'manage_options', 'wp_dfp_settings', array( $c, 'settings_page' ) );
 	}
 
 	/**
