@@ -3,7 +3,7 @@ Contributors: webgeekconsulting, thinkoomph
 Tags: google dfp, google ads
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,3 +41,6 @@ ad container's width **NOT** the browser viewport.
 * Better handling of slots that don't exist -- silently fail instead of throwing an exception
 * Make HTML attributes for ad units/slots more helpful
 * Ensure that HTML attributes are unique if a slot is being used more than once
+
+= 1.1.2 =
+* Fix bug when importing ad slots from an XML export file the slot name is blank
