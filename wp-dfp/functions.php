@@ -45,6 +45,10 @@ if ( !function_exists( 'wp_parse_html_atts' ) ) {
 	 */
 	function wp_parse_html_atts( array $atts ) {
 		foreach ( $atts as $name => &$value ) {
+			if ( is_array( $value ) ) {
+				$value = join( ' ', $value );
+			}
+
 			$value = $name . '="' . esc_attr( $value ) . '"';
 		}
 		
