@@ -54,10 +54,10 @@ class WP_DFP_Ad_Slot {
 	 *
 	 * @param string $meta_key The meta key to get a value for.
 	 * @param mixed  $default  The default value to return if a value does not exist for the given $meta_key..
-	 * @return The meta value or $default if a value does not exist for the given $meta_key.
+	 * @return                 The meta value or $default if a value does not exist for the given $meta_key.
 	 */
 	public function meta( $meta_key, $default = false ) {
-		$value = get_post_meta( $this->post->ID, "_wp_dfp_{$meta_key}", true );
+		$value = get_post_meta( $this->post->ID, $meta_key, true );
 		return $value == '' ? $default : $value;
 	}
 
@@ -69,7 +69,7 @@ class WP_DFP_Ad_Slot {
 	 * @return string|array
 	 */
 	public function sizes() {
-		return $this->meta( 'oop' ) ? 'oop' : $this->meta( 'sizing_rules', array() );
+		return $this->meta( WP_DFP::META_OOP ) ? 'oop' : $this->meta( WP_DFP::META_SIZING_RULES, array() );
 	}
 
 	/**
@@ -124,7 +124,7 @@ class WP_DFP_Ad_Slot {
 		// Set the name of this adunit
 		$ad_atts['data-adunit'] = $this->slot();
 
-		if ( $this->meta( 'oop' ) ) {
+		if ( $this->meta( WP_DFP::META_OOP ) ) {
 			$ad_atts['data-outofpage'] = 'true';
 		}
 		else {

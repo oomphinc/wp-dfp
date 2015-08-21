@@ -143,7 +143,7 @@ class WP_DFP_Admin {
 			case 'wp-dfp-slot-config' :
 				$ad_slot = wp_dfp_ad_slot( $post );
 				$values['wp_dfp_slot_name'] = $post->post_name;
-				$values['wp_dfp_oop'] = $ad_slot->meta( 'oop' );
+				$values[ WP_DFP::META_OOP ] = (int) $ad_slot->meta( WP_DFP::META_OOP );
 				$form = array(
 					'wp_dfp_slot_name' => array(
 						'#label'       => __( 'Slot Name', 'wp-dfp' ),
@@ -161,7 +161,7 @@ class WP_DFP_Admin {
 
 			case 'wp-dfp-sizing-rules' :
 				$ad_slot = wp_dfp_ad_slot( $post );
-				$rules = $ad_slot->meta( 'sizing_rules', array() );
+				$rules = $ad_slot->meta( WP_DFP::META_SIZING_RULES, array() );
 				$index = 0;
 				foreach ( $rules as $container_width => $sizes ) {
 					$values['wp_dfp_sizing_rules'][ $index ]['container_width'] = $container_width;
