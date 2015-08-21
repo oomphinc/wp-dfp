@@ -67,7 +67,7 @@ if ( !function_exists( 'wp_dfp_settings_url' ) ) {
 	 * @return string      The URL to the WP_DFP settings page.
 	 */
 	function wp_dfp_settings_url() {
-		return admin_url( 'options-general.php?page=wp_dfp_settings' );
+		return admin_url( 'edit.php?post_type=' . WP_DFP::POST_TYPE . '&amp;page=wp_dfp_settings' );
 	}
 
 }
