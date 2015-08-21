@@ -264,7 +264,7 @@ class WP_DFP_Admin {
 						'#type'        => 'text',
 						'#description' => __( 'Enter the name of the slot as found in DFP. Do not include your network ID!', 'wp-dfp' ),
 					),
-					'wp_dfp_oop' => array(
+					WP_DFP::META_OOP => array(
 						'#label'       => __( 'This is an out-of-page slot.', 'wp-dfp' ),
 						'#type'        => 'checkbox',
 						'#checked'     => 1,
@@ -278,14 +278,14 @@ class WP_DFP_Admin {
 				$rules = $ad_slot->meta( WP_DFP::META_SIZING_RULES, array() );
 				$index = 0;
 				foreach ( $rules as $container_width => $sizes ) {
-					$values['wp_dfp_sizing_rules'][ $index ]['container_width'] = $container_width;
+					$values[ WP_DFP::META_SIZING_RULES ][ $index ]['container_width'] = $container_width;
 
 					$size_parts = array();
 					foreach ( $sizes as $size ) {
 						$size_parts[] = join( 'x', $size );
 					}
 
-					$values['wp_dfp_sizing_rules'][ $index ]['sizes'] = join( "\n", $size_parts );
+					$values[ WP_DFP::META_SIZING_RULES ][ $index ]['sizes'] = join( "\n", $size_parts );
 					$index ++;
 				}
 
@@ -293,7 +293,7 @@ class WP_DFP_Admin {
 					'sizing_rules' => array(
 						'#label' => '',
 						'#description' => __( 'Click "Add Rule" below to specify a new sizing rule.', 'wp-dfp' ),
-						'wp_dfp_sizing_rules' => array(
+						WP_DFP::META_SIZING_RULES => array(
 							'#type' => 'multiple',
 							'#add_link' => __( 'Add Rule', 'wp-dfp' ),
 							'#multiple' => array(
@@ -322,6 +322,13 @@ class WP_DFP_Admin {
 				}
 
 				$markup = '
+					<div id="minor-publishing">
+						<div id="misc-publishing-actions">
+							<div class="misc-pub-section">
+								<span class="dashicons dashicons-welcome-add-page"></span><a href="' . self::clone_url( $post ) . '">' . __( 'Clone this slot', 'wp-dfp' ) . '</a>
+							</div>
+						</div>
+					</div>
 					<div id="major-publishing-actions">' .
 						$delete_markup . '
 						<div id="publishing-action">
@@ -372,8 +379,8 @@ class WP_DFP_Admin {
 		}
 
 		$rules = array();
-		if ( is_array( $_POST[ 'wp_dfp_sizing_rules' ] ) ) {
-			foreach ( $_POST[ 'wp_dfp_sizing_rules' ] as $values ) {
+		if ( is_array( $_POST[ WP_DFP::META_SIZING_RULES ] ) ) {
+			foreach ( $_POST[ WP_DFP::META_SIZING_RULES ] as $values ) {
 				$key = intval( $values['container_width'] );
 				$rules[ $key ] = array();
 				$sizes = explode( "\n", $values['sizes'] );
@@ -398,7 +405,7 @@ class WP_DFP_Admin {
 		update_post_meta( $post_id, WP_DFP::META_SIZING_RULES, $rules );
 
 		// Out-Of-Page?
-		update_post_meta( $post_id, WP_DFP::META_OOP, isset( $_POST['wp_dfp_oop'] ) ? $_POST['wp_dfp_oop'] : 0 );
+		update_post_meta( $post_id, WP_DFP::META_OOP, isset( $_POST[ WP_DFP::META_OOP ] ) ? $_POST[ WP_DFP::META_OOP ] : 0 );
 	}
 
 	/**
