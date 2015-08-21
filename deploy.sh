@@ -72,10 +72,10 @@ echo "Creating local copy of SVN repo ..."
 svn co "$SVNURL" "$SVNPATH"
 
 echo "Clearing svn repo so we can overwrite it"
-svn rm "$SVNPATH/trunk/*"
+svn rm "$SVNPATH"/trunk/*
 
 echo "Copying files to SVN"
-cp -R "$PLUGINPATH/*" "$SVNPATH/trunk"
+cp -R "$PLUGINPATH"/* "$SVNPATH/trunk"
 
 echo "Ignoring github specific files and deployment script"
 svn propset svn:ignore ".git .gitignore" "$SVNPATH/trunk/"
@@ -98,11 +98,11 @@ cd "$SVNPATH/tags/$NEWVERSION1" || (echo "Cannot cd into $SVNPATH/tags/$NEWVERSI
 svn commit --username="$SVNUSER" -m "Tagging version $NEWVERSION1"
 
 echo "Cleaning up SVN assets folder"
-svn rm "$SVNPATH/assets/*"
+svn rm "$SVNPATH"/assets/*
 
 echo "Copying assets to SVN"
 cd $BASEDIR || (echo "Cannot cd into $BASEDIR" && exit 1)
-cp -R assets/* "$SVNPATH/assets"
+cp -R assets/* "$SVNPATH"/assets
 
 echo "Adding new assets to SVN"
 cd "$SVNPATH" || (echo "Cannot cd into $SVNPATH" && exit 1)
@@ -110,6 +110,6 @@ svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn a
 svn commit --username="$SVNUSER" -m "Adding new assets"
 
 echo "Removing temporary directory $SVNPATH"
-rm -fr "$SVNPATH/"
+rm -fr "$SVNPATH"/
 
 echo "*** FIN ***"
