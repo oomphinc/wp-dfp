@@ -85,6 +85,18 @@ class WP_DFP_Ad_Slot {
 	}
 
 	/**
+	 * Gets the full path to the ad slot
+	 *
+	 * @since 1.0.1
+	 *
+	 * @return string
+	 */
+	public function path() {
+		WP_DFP::inc( 'wp-dfp-settings.php' );
+		return ltrim( WP_DFP_Settings::get( 'network_code', '' ) . '/' . $this->slot(), '/' );
+	}
+
+	/**
 	 * Gets the display markup for the ad slot
 	 *
 	 * @since 1.0

@@ -172,6 +172,11 @@ class WP_DFP_Admin {
 		global $post;
 
 		switch ( $column_name ) {
+			case 'wp_dfp_slot_path' :
+				$ad_slot = wp_dfp_ad_slot( $post );
+				echo $ad_slot->path();
+			break;
+
 			case 'wp_dfp_shortcode' :
 				echo '<code>[wp_dfp_ad slot="' . $post->post_title . '"]</code>';
 			break;
@@ -196,6 +201,7 @@ class WP_DFP_Admin {
 		unset( $columns['date'] );
 
 		$columns['title'] = __( 'Slot Name', 'wp-dfp' );
+		$columns['wp_dfp_slot_path'] = __( 'Slot Path', 'wp-dfp' );
 		$columns['wp_dfp_shortcode'] = __( 'Shortcode', 'wp-dfp' );
 		$columns['wp_dfp_php_code'] = __( 'PHP Code', 'wp-dfp' );
 
