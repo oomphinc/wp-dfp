@@ -3,7 +3,7 @@ Contributors: webgeekconsulting, thinkoomph
 Tags: google dfp, google ads
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,3 +35,9 @@ ad container's width **NOT** the browser viewport.
 * Add "slot path" to ad slot admin columns
 * Add ability to clone ad slots
 * Fix bug where out-of-page slots might generate a Javascript error
+
+= 1.1.1 =
+* Move settings menu item from under settings to under Ad Slots
+* Better handling of slots that don't exist -- silently fail instead of throwing an exception
+* Make HTML attributes for ad units/slots more helpful
+* Ensure that HTML attributes are unique if a slot is being used more than once

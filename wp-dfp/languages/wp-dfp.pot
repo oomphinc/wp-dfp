@@ -21,75 +21,75 @@ msgstr ""
 msgid "WP_DFP: A DFP network code is required for WP DFP to function correctly. Please have an admin set a network code ASAP."
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:203, wp-dfp/wp-dfp-admin.php:263
+#: wp-dfp/wp-dfp-admin.php:205, wp-dfp/wp-dfp-admin.php:265
 msgid "Slot Name"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:204
+#: wp-dfp/wp-dfp-admin.php:206
 msgid "Slot Path"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:205
+#: wp-dfp/wp-dfp-admin.php:207
 msgid "Shortcode"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:206
+#: wp-dfp/wp-dfp-admin.php:208
 msgid "PHP Code"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:233
+#: wp-dfp/wp-dfp-admin.php:235
 msgid "Slot Config"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:235
+#: wp-dfp/wp-dfp-admin.php:237
 msgid "Sizing Rules"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:237
+#: wp-dfp/wp-dfp-admin.php:239
 msgid "Actions"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:265
+#: wp-dfp/wp-dfp-admin.php:267
 msgid "Enter the name of the slot as found in DFP. Do not include your network ID!"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:268
+#: wp-dfp/wp-dfp-admin.php:270
 msgid "This is an out-of-page slot."
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:295
+#: wp-dfp/wp-dfp-admin.php:297
 msgid "Click "Add Rule" below to specify a new sizing rule."
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:298
+#: wp-dfp/wp-dfp-admin.php:300
 msgid "Add Rule"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:302
+#: wp-dfp/wp-dfp-admin.php:304
 msgid "Container Width"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:303
+#: wp-dfp/wp-dfp-admin.php:305
 msgid "If the calculated ad container width is >= than this value and is less than the next largest specified ad container width, then the ad sizes defined below will be used for this ad slot."
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:307
+#: wp-dfp/wp-dfp-admin.php:309
 msgid "Ad Sizes"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:309
+#: wp-dfp/wp-dfp-admin.php:311
 msgid "One ad size per line. Example: 950x100 where 950 is the width of the ad and 100 is the height of the ad."
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:328
+#: wp-dfp/wp-dfp-admin.php:330
 msgid "Clone this slot"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:336
+#: wp-dfp/wp-dfp-admin.php:338
 msgid "Save Ad Slot"
 msgstr ""
 
-#: wp-dfp/wp-dfp-admin.php:421
+#: wp-dfp/wp-dfp-admin.php:423
 msgid "Enter Ad slot name here"
 msgstr ""
 
