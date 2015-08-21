@@ -4,7 +4,7 @@
 Plugin Name: WP DFP
 Plugin URI:  https://github.com/oomphinc/wp-dfp
 Description: A simple & intuitive interface for displaying Google ads on your WP site
-Version:     1.1.2
+Version:     1.1.3
 Author:      Oomph, Inc.
 Author URI:  http://www.oomphinc.com
 Domain Path: /languages
@@ -35,7 +35,7 @@ class WP_DFP {
 	 * @since 1.0
 	 * @var string $VERSION
 	 */
-	const VERSION = '1.1.2';
+	const VERSION = '1.1.3';
 
 	/**
 	 * The ad slot custom post type

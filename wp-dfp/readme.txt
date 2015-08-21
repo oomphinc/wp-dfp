@@ -3,7 +3,7 @@ Contributors: webgeekconsulting, thinkoomph
 Tags: google dfp, google ads
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,3 +44,6 @@ ad container's width **NOT** the browser viewport.
 
 = 1.1.2 =
 * Fix bug when importing ad slots from an XML export file the slot name is blank
+
+= 1.1.3 =
+* Fix incorrect URL that wp_dfp_settings_url() generates
