@@ -23,7 +23,11 @@ if ( !function_exists( 'wp_dfp_ad_slot' ) ) {
 			WP_DFP::inc( 'class-wp-dfp-ad-slot.php' );
 		}
 
-		return new WP_DFP_Ad_Slot( $slot );
+		try {
+			return new WP_DFP_Ad_Slot( $slot );
+		} catch ( InvalidArgumentException $e ) {
+			return new WP_Error();
+		}
 	}
 
 }

@@ -27,23 +27,11 @@ class WP_DFP_Ad_Slot {
 	 * @param string|WP_Post $slot The name of the ad slot or a WP_Post object.
 	 */
 	public function __construct( $slot ) {
-		$valid = true;
-
 		if ( is_string( $slot ) ) {
-			$post = get_page_by_title( $slot, 'OBJECT', WP_DFP::POST_TYPE );
-
-			if ( is_null( $post )) {
-				$valid = false;
-			}
-
-			$this->post = $post;
+			$this->post = get_page_by_title( $slot, 'OBJECT', WP_DFP::POST_TYPE );
 		}
 		elseif ( $slot instanceof WP_Post ) {
 			$this->post = $slot;
-		}
-		
-		if ( !$valid ) {
-			throw new InvalidArgumentException( 'Invalid argument passed to WP_DFP_Ad_Slot::__construct().' );
 		}
 	}
 
@@ -57,6 +45,10 @@ class WP_DFP_Ad_Slot {
 	 * @return                 The meta value or $default if a value does not exist for the given $meta_key.
 	 */
 	public function meta( $meta_key, $default = false ) {
+		if ( !$this->post instanceof WP_Post ) {
+			return $default;
+		}
+
 		$value = get_post_meta( $this->post->ID, $meta_key, true );
 		return $value == '' ? $default : $value;
 	}
@@ -80,6 +72,10 @@ class WP_DFP_Ad_Slot {
 	 * @return string
 	 */
 	public function slot() {
+		if ( !$this->post instanceof WP_Post ) {
+			return '';
+		}
+
 		WP_DFP::inc( 'wp-dfp-settings.php' );
 		return WP_DFP_Settings::get( 'slot_prefix', '' ) . $this->post->post_title;
 	}
@@ -92,6 +88,10 @@ class WP_DFP_Ad_Slot {
 	 * @return string
 	 */
 	public function path() {
+		if ( !$this->post instanceof WP_Post ) {
+			return '';
+		}
+
 		WP_DFP::inc( 'wp-dfp-settings.php' );
 		return ltrim( WP_DFP_Settings::get( 'network_code', '' ) . '/' . $this->slot(), '/' );
 	}
@@ -104,6 +104,10 @@ class WP_DFP_Ad_Slot {
 	 * @return string
 	 */
 	public function markup() {
+		if ( !$this->post instanceof WP_Post ) {
+			return '';
+		}
+		
 		/**
 		 * Filter the ad container HTML attributes array
 		 *

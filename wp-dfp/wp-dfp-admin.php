@@ -174,7 +174,9 @@ class WP_DFP_Admin {
 		switch ( $column_name ) {
 			case 'wp_dfp_slot_path' :
 				$ad_slot = wp_dfp_ad_slot( $post );
-				echo $ad_slot->path();
+				if ( !is_wp_error( $ad_slot ) ) {
+					echo $ad_slot->path();
+				}
 			break;
 
 			case 'wp_dfp_shortcode' :
