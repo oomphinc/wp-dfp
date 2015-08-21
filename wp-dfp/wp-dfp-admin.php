@@ -12,6 +12,22 @@
 class WP_DFP_Admin {
 
 	/**
+	 * The action name used to clone ad slots
+	 *
+	 * @since 1.1
+	 * @var string $CLONE_ACTION
+	 */
+	const CLONE_ACTION = 'wp_dfp_clone_slot';
+
+	/**
+	 * Is the cloning task running?
+	 *
+	 * @since 1.1
+	 * @var bool
+	 */
+	protected static $is_cloning = false;
+
+	/**
 	 * Initialization functionality
 	 *
 	 * @since 1.0
@@ -28,6 +44,98 @@ class WP_DFP_Admin {
 		add_filter( 'manage_' . WP_DFP::POST_TYPE . '_posts_columns', array( $c, 'manage_admin_columns' ) );
 		add_action( 'manage_' . WP_DFP::POST_TYPE . '_posts_custom_column', array( $c, 'admin_column_values' ), 10, 2 );
 		add_action( 'admin_notices', array( $c, 'display_admin_notices' ) );
+		add_action( 'admin_action_' . self::CLONE_ACTION, array( $c, 'clone_slot' ) );
+		add_filter( 'post_row_actions', array( $c, 'row_actions' ), 10, 2 );
+	}
+
+	/**
+	 * Gets the URL that will clone the given ad slot
+	 *
+	 * @since 1.1
+	 *
+	 * @param  WP_Post|int A post object or post ID.
+	 * @return string      HTML markup for a link that will clone an ad slot.
+	 */
+	public static function clone_url( $post ) {
+		$post = get_post( $post );
+
+		if ( $post instanceof WP_Post && $post->post_type == WP_DFP::POST_TYPE ) {
+			return wp_nonce_url( admin_url( 'admin.php?action=' . self::CLONE_ACTION . '&amp;wp_dfp_slot=' . $post->ID ), self::CLONE_ACTION );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Filter the row actions
+	 *
+	 * @since 1.1
+	 * @filter post_row_actions
+	 *
+	 * @param array   $actions An array of actions.
+	 * @param WP_POST $post    A post object.
+	 *
+	 * @return array
+	 */
+	public static function row_actions( $actions, $post ) {
+		if ( $post->post_type == WP_DFP::POST_TYPE && current_user_can( 'edit_posts' ) ) {
+			$actions[ self::CLONE_ACTION ] = '<a href="' . self::clone_url( $post ) . '">' . __( 'Clone', 'wp-dfp' ) . '</a>';
+		}
+
+		return $actions;
+	}
+
+	/**
+	 * Creates a clone of an ad slot
+	 *
+	 * @since 1.1
+	 * @uses $wpdb
+	 * @action admin_action_{$action}
+	 */
+	public static function clone_slot() {
+		global $wpdb;
+
+		$is_correct_action = isset( $_REQUEST['action'] ) && $_REQUEST['action'] == self::CLONE_ACTION;
+		$is_valid_nonce = isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], self::CLONE_ACTION );
+
+		if ( isset( $_REQUEST['wp_dfp_slot'] ) && $is_correct_action && $is_valid_nonce ) {
+			$slot_id = $_REQUEST['wp_dfp_slot'];
+			$slot = get_post( $slot_id );
+
+			if ( $slot instanceof WP_Post ) {
+				$data = $slot->to_array();
+				$data['post_name'] .= '-clone';
+				$data['post_title'] .= '-clone';
+				$data['post_author'] = get_current_user_id();
+				unset( $data['ID'], $data['post_date'], $data['post_modified'], $data['guid'] );
+
+				// Insert post
+				self::$is_cloning = true;
+				$new_slot_id = wp_insert_post( $data );
+				self::$is_cloning = false;
+
+				// Meta
+				$meta = get_post_custom( $slot_id );
+				$sql = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) VALUES\n";
+				$values = array();
+				$did_one = false;
+
+				foreach ( $meta as $meta_key => $meta_value ) {
+					$sql .= $did_one ? ",\n" : '';
+					$sql .= '(%d, %s, %s)';
+					array_push( $values, $new_slot_id, $meta_key, $meta_value[0] );
+					$did_one = true;
+				}
+
+				$wpdb->query( $wpdb->prepare( $sql, $values ) );
+
+				// Redirect to post-edit screen
+				wp_redirect( admin_url( "post.php?action=edit&post={$new_slot_id}" ) );
+				exit;
+			}
+
+			wp_die();
+		}
 	}
 
 	/**
@@ -236,8 +344,8 @@ class WP_DFP_Admin {
 	 * @return Modified $data.
 	 */
 	public static function insert_post_data( $data, $postarr ) {
-		if ( $postarr['post_type'] == WP_DFP::POST_TYPE ) {
-			$data['post_name'] = sanitize_title_with_dashes( $postarr['wp_dfp_slot_name'], '', 'save' );
+		if ( $postarr['post_type'] == WP_DFP::POST_TYPE && !self::$is_cloning ) {
+			$data['post_name'] = sanitize_title_with_dashes( $postarr['_wp_dfp_slot_name'], '', 'save' );
 			$data['post_title'] = $postarr['wp_dfp_slot_name'];
 		}
 
@@ -248,12 +356,12 @@ class WP_DFP_Admin {
 	 * When an ad slot is saved, performs some extra processing
 	 *
 	 * @since 1.0
-	 * @action 1.0
+	 * @action save_post_{$post_type}
 	 *
 	 * @param int $post_id The ID of the post that was created/updated.
 	 */
 	public static function save_post( $post_id ) {
-		if ( wp_is_post_revision( $post_id ) ) {
+		if ( wp_is_post_revision( $post_id ) || self::$is_cloning ) {
 			return;
 		}
 
