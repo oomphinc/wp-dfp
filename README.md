@@ -20,10 +20,5 @@ ln -s /path/to/repo/wp-dfp /path/to/wp-content/plugins/wp-dfp
 
 ### To work in your development environment:
 
-	$ gulp clean
-
-    $ gulp develop
-
-**NOTE:** The `clean` step is necessary before the `develop` step, in order to clean up the copied externals. It is necessary to run them in order separately (as opposed to simply making `clean` a dependency of `develop` in the Gulpfile,) due to a race-condition due to the asynchronous nature of gulp's task runner. Any effort to solve this bug would be greatly appreciated.
-
+  $ ./develop.sh
 
