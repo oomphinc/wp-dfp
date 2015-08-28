@@ -374,8 +374,8 @@ class WP_DFP_Admin {
 	 * @return Modified $data.
 	 */
 	public static function insert_post_data( $data, $postarr ) {
-		if ( $postarr['post_type'] == WP_DFP::POST_TYPE && isset( $postarr['_wp_dfp_slot_name'] ) ) {
-			$data['post_name'] = sanitize_title_with_dashes( $postarr['_wp_dfp_slot_name'], '', 'save' );
+		if ( $postarr['post_type'] == WP_DFP::POST_TYPE && isset( $postarr['wp_dfp_slot_name'] ) ) {
+			$data['post_name'] = sanitize_title_with_dashes( $postarr['wp_dfp_slot_name'], '', 'save' );
 			$data['post_title'] = $postarr['wp_dfp_slot_name'];
 		}
 
