@@ -86,6 +86,54 @@ class WP_DFP_Admin {
 	}
 
 	/**
+	 * Return the meta box forms
+	 *
+	 * @return array
+	 */
+	public static function meta_box_forms() {
+		return array(
+			// DFP slot configuration
+			'wp-dfp-slot-config' => array(
+				'wp_dfp_slot_name' => array(
+					'#label'       => __( 'Slot Name', 'wp-dfp' ),
+					'#type'        => 'text',
+					'#description' => __( 'Enter the name of the slot as found in DFP. Do not include your network ID!', 'wp-dfp' ),
+				),
+				WP_DFP::META_OOP => array(
+					'#label'       => __( 'This is an out-of-page slot.', 'wp-dfp' ),
+					'#type'        => 'checkbox',
+					'#checked'     => 1,
+					'#conditional' => array( 'element' => '#wp-dfp-sizing-rules', 'action' => 'hide', 'value' => 1 ),
+				),
+			),
+
+			'wp-dfp-sizing-rules' => array(
+				'sizing_rules' => array(
+					'#label' => '',
+					'#description' => __( 'Click "Add Rule" below to specify a new sizing rule.', 'wp-dfp' ),
+					WP_DFP::META_SIZING_RULES => array(
+						'#type' => 'multiple',
+						'#add_link' => __( 'Add Rule', 'wp-dfp' ),
+						'#multiple' => array(
+							'container_width' => array(
+								'#type' => 'text',
+								'#label' => __( 'Container Width', 'wp-dfp' ),
+								'#description' => __( 'If the calculated ad container width is >= than this value and is less than the next largest specified ad container width, then the ad sizes defined below will be used for this ad slot.', 'wp-dfp' ),
+							),
+							'sizes' => array(
+								'#type' => 'textarea',
+								'#label' => __( 'Ad Sizes', 'wp-dfp' ),
+								'#attrs' => array( 'rows' => 5 ),
+								'#description' => __( 'One ad size per line. Example: 950x100 where 950 is the width of the ad and 100 is the height of the ad.', 'wp-dfp' )
+							),
+						),
+					),
+				)
+			)
+		);
+	}
+
+	/**
 	 * Creates a clone of an ad slot
 	 *
 	 * @since 1.1
@@ -252,27 +300,15 @@ class WP_DFP_Admin {
 		global $wpdb;
 
 		$meta_box = array_shift( $args );
+		$forms = self::meta_box_forms();
 		$values = array();
-		$form = array();
+		$form = isset( $forms[ $meta_box ] ) ? $forms[ $meta_box ] : false;
 
 		switch ( $meta_box ) {
 			case 'wp-dfp-slot-config' :
 				$ad_slot = wp_dfp_ad_slot( $post );
 				$values['wp_dfp_slot_name'] = $post->post_name;
 				$values[ WP_DFP::META_OOP ] = (int) $ad_slot->meta( WP_DFP::META_OOP );
-				$form = array(
-					'wp_dfp_slot_name' => array(
-						'#label'       => __( 'Slot Name', 'wp-dfp' ),
-						'#type'        => 'text',
-						'#description' => __( 'Enter the name of the slot as found in DFP. Do not include your network ID!', 'wp-dfp' ),
-					),
-					WP_DFP::META_OOP => array(
-						'#label'       => __( 'This is an out-of-page slot.', 'wp-dfp' ),
-						'#type'        => 'checkbox',
-						'#checked'     => 1,
-						'#conditional' => array( 'element' => '#wp-dfp-sizing-rules', 'action' => 'hide', 'value' => 1 ),
-					),
-				);
 			break;
 
 			case 'wp-dfp-sizing-rules' :
@@ -291,29 +327,6 @@ class WP_DFP_Admin {
 					$index ++;
 				}
 
-				$form = array(
-					'sizing_rules' => array(
-						'#label' => '',
-						'#description' => __( 'Click "Add Rule" below to specify a new sizing rule.', 'wp-dfp' ),
-						WP_DFP::META_SIZING_RULES => array(
-							'#type' => 'multiple',
-							'#add_link' => __( 'Add Rule', 'wp-dfp' ),
-							'#multiple' => array(
-								'container_width' => array(
-									'#type' => 'text',
-									'#label' => __( 'Container Width', 'wp-dfp' ),
-									'#description' => __( 'If the calculated ad container width is >= than this value and is less than the next largest specified ad container width, then the ad sizes defined below will be used for this ad slot.', 'wp-dfp' ),
-								),
-								'sizes' => array(
-									'#type' => 'textarea',
-									'#label' => __( 'Ad Sizes', 'wp-dfp' ),
-									'#attrs' => array( 'rows' => 5 ),
-									'#description' => __( 'One ad size per line. Example: 950x100 where 950 is the width of the ad and 100 is the height of the ad.', 'wp-dfp' )
-								),
-							),
-						),
-					),
-				);
 			break;
 
 			case 'submitdiv' :
@@ -344,7 +357,9 @@ class WP_DFP_Admin {
 			break;
 		}
 
-		echo WP_Forms_API::render_form( $form, $values );
+		if( $form ) {
+			echo WP_Forms_API::render_form( $form, $values );
+		}
 	}
 
 	/**
@@ -376,23 +391,31 @@ class WP_DFP_Admin {
 	 * @param int $post_id The ID of the post that was created/updated.
 	 */
 	public static function save_post( $post_id ) {
-		if ( wp_is_post_revision( $post_id ) || !isset( $_POST[ WP_DFP::META_SIZING_RULES ] ) ) {
+		if ( wp_is_post_revision( $post_id ) ) {
 			return;
 		}
 
-		$rules = array();
-		if ( is_array( $_POST[ WP_DFP::META_SIZING_RULES ] ) ) {
-			foreach ( $_POST[ WP_DFP::META_SIZING_RULES ] as $values ) {
-				$key = intval( $values['container_width'] );
+		WP_Forms_API::process_form( self::meta_box_forms(), $values );
+
+		if ( is_array( $values[ WP_DFP::META_SIZING_RULES ] ) ) {
+			$rules = array();
+
+			foreach ( $values[ WP_DFP::META_SIZING_RULES ] as $rule ) {
+				$key = intval( $rule['container_width'] );
+
+				if ( $key <= 0 ) {
+					continue;
+				}
+
 				$rules[ $key ] = array();
-				$sizes = explode( "\n", $values['sizes'] );
+				$sizes = explode( "\n", $rule['sizes'] );
 
 				foreach ( $sizes as $size ) {
 					// split size string into an array
 					$size = explode( 'x', strtolower( $size ) );
 					// remove any extra whitespace
 					$size = array_map( 'trim', $size );
-					// make sure values are integers
+					// make sure sizes are integers
 					$size = array_map( 'intval', $size );
 
 					$rules[ $key ][] = $size;
