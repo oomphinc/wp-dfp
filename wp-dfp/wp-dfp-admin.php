@@ -146,16 +146,18 @@ class WP_DFP_Admin {
 	 */
 	public static function display_admin_notices() {
 		$network_code = WP_DFP_Settings::get( 'network_code' );
-		if ( !$network_code ) {
-			if ( current_user_can( 'manage_options' ) ) {
-				$notice = sprintf( __( 'WP_DFP: You have not specified your DFP network code. You can set your network code by going to the <a href="%s">WP DFP settings page</a>', 'wp-dfp' ), wp_dfp_settings_url() );
-			}
-			else {
-				$notice = __( 'WP_DFP: A DFP network code is required for WP DFP to function correctly. Please have an admin set a network code ASAP.', 'wp-dfp' );
-			}
-
-			echo '<div class="error"><p>' . $notice . '</p></div>';
+		if ( !empty($network_code) || get_current_screen()->id == 'wp_dfp_ad_slot_page_wp_dfp_settings' ) {
+			return;
 		}
+
+		if ( current_user_can( 'manage_options' ) ) {
+			$notice = sprintf( __( 'WP_DFP: You have not specified your DFP network code. You can set your network code by going to the <a href="%s">WP DFP settings page</a>', 'wp-dfp' ), wp_dfp_settings_url() );
+		}
+		else {
+			$notice = __( 'WP_DFP: A DFP network code is required for WP DFP to function correctly. Please have an admin set a network code ASAP.', 'wp-dfp' );
+		}
+
+		echo '<div class="error"><p>' . $notice . '</p></div>';
 	}
 
 	/**
