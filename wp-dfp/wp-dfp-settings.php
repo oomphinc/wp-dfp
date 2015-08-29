@@ -112,7 +112,7 @@ class WP_DFP_Settings {
 		update_option( self::OPTION_NAME, array_map( 'trim', $_POST[ self::OPTION_NAME ] ) );
 
 		// Redirect per best practices
-		$url = add_query_arg( self::SETTINGS_SAVED_ARG, 1, wp_dfp_settings_url( 'settings_saved' ) );
+		$url = add_query_arg( self::SETTINGS_SAVED_ARG, 1, wp_dfp_settings_url() );
 		wp_redirect( $url );
 		exit;
 	}

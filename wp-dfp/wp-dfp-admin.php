@@ -146,16 +146,18 @@ class WP_DFP_Admin {
 	 */
 	public static function display_admin_notices() {
 		$network_code = WP_DFP_Settings::get( 'network_code' );
-		if ( !$network_code ) {
-			if ( current_user_can( 'manage_options' ) ) {
-				$notice = sprintf( __( 'WP_DFP: You have not specified your DFP network code. You can set your network code by going to the <a href="%s">WP DFP settings page</a>', 'wp-dfp' ), wp_dfp_settings_url() );
-			}
-			else {
-				$notice = __( 'WP_DFP: A DFP network code is required for WP DFP to function correctly. Please have an admin set a network code ASAP.', 'wp-dfp' );
-			}
-
-			echo '<div class="error"><p>' . $notice . '</p></div>';
+		if ( !empty($network_code) || get_current_screen()->id == 'wp_dfp_ad_slot_page_wp_dfp_settings' ) {
+			return;
 		}
+
+		if ( current_user_can( 'manage_options' ) ) {
+			$notice = sprintf( __( 'WP_DFP: You have not specified your DFP network code. You can set your network code by going to the <a href="%s">WP DFP settings page</a>', 'wp-dfp' ), wp_dfp_settings_url() );
+		}
+		else {
+			$notice = __( 'WP_DFP: A DFP network code is required for WP DFP to function correctly. Please have an admin set a network code ASAP.', 'wp-dfp' );
+		}
+
+		echo '<div class="error"><p>' . $notice . '</p></div>';
 	}
 
 	/**
@@ -359,8 +361,8 @@ class WP_DFP_Admin {
 	 * @return Modified $data.
 	 */
 	public static function insert_post_data( $data, $postarr ) {
-		if ( $postarr['post_type'] == WP_DFP::POST_TYPE && isset( $postarr['_wp_dfp_slot_name'] ) ) {
-			$data['post_name'] = sanitize_title_with_dashes( $postarr['_wp_dfp_slot_name'], '', 'save' );
+		if ( $postarr['post_type'] == WP_DFP::POST_TYPE && isset( $postarr['wp_dfp_slot_name'] ) ) {
+			$data['post_name'] = sanitize_title_with_dashes( $postarr['wp_dfp_slot_name'], '', 'save' );
 			$data['post_title'] = $postarr['wp_dfp_slot_name'];
 		}
 
@@ -376,7 +378,7 @@ class WP_DFP_Admin {
 	 * @param int $post_id The ID of the post that was created/updated.
 	 */
 	public static function save_post( $post_id ) {
-		if ( wp_is_post_revision( $post_id ) || !isset( $_POST[ WP_DFP::META_SIZING_RULES ] ) ) {
+		if ( wp_is_post_revision( $post_id ) || !isset( $_POST[ 'wp_dfp_slot_name' ] ) ) {
 			return;
 		}
 
