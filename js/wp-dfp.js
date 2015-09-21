@@ -42,6 +42,11 @@
 					  		{ browser: [ 0, 0 ], ad_sizes: adSizes }
 					  	];
 					}
+					else {
+						sizeMapping[ id ] = [
+							{ browser: [ 0, 0 ], ad_sizes: [] }
+						];
+					}
 				}
 		  	} );
 		} );
