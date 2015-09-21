@@ -46,20 +46,30 @@
 		  	} );
 		} );
 
-	  	$ads.dfp( {
-			dfpID:               wpdfp.network,
-			setUrlTargeting:     false,
-			setTargeting:        wpdfp.targeting,
-			sizeMapping:         sizeMapping,
-			enableSingleRequest: true
-	  	} );
+		if ( $.fn.dfp ) {
+			$ads.dfp( {
+				dfpID:               wpdfp.network,
+				collapseEmptyDivs:   false,
+				setUrlTargeting:     false,
+				setTargeting:        wpdfp.targeting,
+				sizeMapping:         sizeMapping,
+				afterEachAdLoaded:   wpdfp.afterEachAdLoaded,
+				enableSingleRequest: true
+			} );
+		}
 	};
 
-} )( jQuery );
-
-jQuery( document ).ready( function( $ ) {
+	wpdfp.afterEachAdLoaded = function( $adUnit, event ) {
+		if ( !event.isEmpty ) {
+			$adUnit.show();
+		}
+		else {
+			$adUnit.hide();
+		}
+	};
 
 	wpdfp.init();
 	$( window ).resize( wpdfp.init );
 
-} );
+} )( jQuery );
+
