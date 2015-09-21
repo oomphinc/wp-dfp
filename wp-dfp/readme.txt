@@ -3,7 +3,7 @@ Contributors: webgeekconsulting, thinkoomph
 Tags: google dfp, google ads
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,3 +47,12 @@ ad container's width **NOT** the browser viewport.
 
 = 1.1.3 =
 * Fix incorrect URL that wp_dfp_settings_url() generates
+
+= 1.1.4 =
+* Don't show network code nag on settings page
+* Fix bug where user is redirected to wrong URL after saving settings
+* Fix bug where slot name is always auto-draft
+
+= 1.1.5 = 
+* Fix slots are hidden until window is resized
+* Fix js error if DFP is blocked by an ad blocker
