@@ -105,7 +105,7 @@ cd $BASEDIR || (echo "Cannot cd into $BASEDIR" && exit 1)
 cp -R assets/* "$SVNPATH"/assets
 
 echo "Adding new assets to SVN"
-cd "$SVNPATH" || (echo "Cannot cd into $SVNPATH" && exit 1)
+cd "$SVNPATH"/assets || (echo "Cannot cd into $SVNPATH/assets" && exit 1)
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
 svn commit --username="$SVNUSER" -m "Adding new assets"
 
