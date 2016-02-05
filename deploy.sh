@@ -75,7 +75,7 @@ echo "Clearing svn repo so we can overwrite it"
 svn rm "$SVNPATH"/trunk/*
 
 echo "Copying files to SVN"
-cp -R "$PLUGINPATH"/* "$SVNPATH/trunk"
+rsync -r --delete "$PLUGINPATH"/. "$SVNPATH/trunk"
 
 echo "Ignoring github specific files and deployment script"
 svn propset svn:ignore ".git .gitignore" "$SVNPATH"/trunk/
