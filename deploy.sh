@@ -100,7 +100,7 @@ svn rm "$SVNPATH"/assets/*
 
 echo "Copying assets to SVN"
 cd $BASEDIR || (echo "Cannot cd into $BASEDIR" && exit 1)
-cp -R assets "$SVNPATH"
+rsync -r --delete assets/. "$SVNPATH"/assets
 
 echo "Adding new assets to SVN"
 cd "$SVNPATH"/assets || (echo "Cannot cd into $SVNPATH/assets" && exit 1)
