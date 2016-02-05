@@ -78,7 +78,7 @@ echo "Copying files to SVN"
 cp -R "$PLUGINPATH"/* "$SVNPATH/trunk"
 
 echo "Ignoring github specific files and deployment script"
-svn propset svn:ignore ".git .gitignore" "$SVNPATH/trunk/"
+svn propset svn:ignore ".git .gitignore" "$SVNPATH"/trunk/
 
 echo "Changing directory to SVN and committing to trunk"
 cd "$SVNPATH/trunk/" || (echo "Cannot cd into $SVNPATH/trunk" && exit 1)
@@ -92,17 +92,15 @@ fi
 svn commit --username="$SVNUSER" -m "$COMMITMSG"
 
 echo "Creating new SVN tag & committing it"
-cd "$SVNPATH" || (echo "Cannot cd into $SVNPATH" && exit 1)
-svn copy trunk/ "tags/$NEWVERSION1/"
-cd "$SVNPATH/tags/$NEWVERSION1" || (echo "Cannot cd into $SVNPATH/tags/$NEWVERSION1" && exit 1)
-svn commit --username="$SVNUSER" -m "Tagging version $NEWVERSION1"
+cd "$SVNPATH/trunk" || (echo "Cannot cd into $SVNPATH/trunk" && exit 1)
+svn copy . "$SVNURL/tags/$NEWVERSION1/" --username="$SVNUSER" -m "Tagging version $NEWVERSION1"
 
 echo "Cleaning up SVN assets folder"
 svn rm "$SVNPATH"/assets/*
 
 echo "Copying assets to SVN"
 cd $BASEDIR || (echo "Cannot cd into $BASEDIR" && exit 1)
-cp -R assets/* "$SVNPATH"/assets
+cp -R assets "$SVNPATH"
 
 echo "Adding new assets to SVN"
 cd "$SVNPATH"/assets || (echo "Cannot cd into $SVNPATH/assets" && exit 1)
@@ -110,6 +108,6 @@ svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn a
 svn commit --username="$SVNUSER" -m "Adding new assets"
 
 echo "Removing temporary directory $SVNPATH"
-rm -fr "$SVNPATH"/
+rm -rf "$SVNPATH"
 
 echo "*** FIN ***"

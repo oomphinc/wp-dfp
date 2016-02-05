@@ -1,7 +1,7 @@
 {
   "name": "wp-dfp",
   "pluginName": "WP DFP",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "A simple & intuitive interface for displaying Google ads on your WP site",
   "homepage": "https://github.com/oomphinc/wp-dfp",
   "main": "gulpfile.js",

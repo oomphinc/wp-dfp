@@ -3,7 +3,7 @@ Contributors: webgeekconsulting, thinkoomph
 Tags: google dfp, google ads
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 1.1.6
+Stable tag: 1.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,9 @@ uses an intuitive approach to determining appropriate ad sizes by measuring the
 ad container's width **NOT** the browser viewport.
 
 == Changelog ==
+
+= 1.1.7 =
+* Fix bug in Firefox that causes the smallest-available ad size to always be selected
 
 = 1.1.6 =
 * Update README
