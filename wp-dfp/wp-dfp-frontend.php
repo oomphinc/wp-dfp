@@ -147,7 +147,7 @@ class WP_DFP_Frontend {
 		}
 		// Define targeting rules for custom taxonomy archives
 		elseif ( is_tax() ) {
-			self::$taxonomy = get_queried_object()->slug;
+			$taxonomy = get_queried_object()->slug;
 			self::$targeting['taxonomy'] = $taxonomy;
 			self::$targeting['term'] = get_query_var( $taxonomy );
 		}
