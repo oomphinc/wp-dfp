@@ -1,7 +1,5 @@
 #!/bin/bash
 
-pushd $(git rev-parse --show-toplevel)
-
 echo 'Updating git submodules...'
 git submodule update --recursive --init
 
@@ -13,5 +11,3 @@ rsync -r --delete --exclude='.git' --exclude='.DS_Store' --exclude='node_modules
 
 echo 'Running Gulp...'
 gulp build
-
-popd
