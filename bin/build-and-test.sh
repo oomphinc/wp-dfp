@@ -12,6 +12,6 @@ echo 'Copying "externals/wp-forms-api" to "wp-dfp/externals/wp-forms-api"'
 rsync -r --delete --exclude='.git' --exclude='.DS_Store' --exclude='node_modules' externals/wp-forms-api/. wp-dfp/externals/wp-forms-api
 
 echo 'Running Gulp...'
-gulp
+gulp build
 
 popd

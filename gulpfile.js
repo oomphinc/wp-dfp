@@ -4,18 +4,10 @@ var gulp        = require('gulp')
   , runSequence = require('gulp-sequence').use(gulp)
   , sass        = require('gulp-sass')
   , uglify      = require('gulp-uglify')
-  , plumber     = require('gulp-plumber')
-  , gutil       = require('gulp-util')
   , sourcemaps  = require('gulp-sourcemaps')
   , wpPot       = require('gulp-wp-pot')
   , pkg         = JSON.parse(fs.readFileSync('./package.json'))
 ;
-
-// Outputs an error through plumber plugin
-var onError = function (err) {
-  gutil.beep();
-  console.log(err);
-};
 
 /**
  * External plugins, as { src: dest, ... }
@@ -46,7 +38,6 @@ gulp.task('styles', function() {
 gulp.task('frontend_scripts', function() {
   return gulp.src(scripts_frontend)
     .pipe(sourcemaps.init())
-    .pipe(plumber({ errorHandler: onError }))
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('wp-dfp/js'));
@@ -56,18 +47,16 @@ gulp.task('frontend_scripts', function() {
 gulp.task('admin_scripts', function() {
   return gulp.src(scripts_admin)
     .pipe(sourcemaps.init())
-    .pipe(plumber({ errorHandler: onError }))
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('wp-dfp/js'));
 });
 
 // When ya wanna watch files
-gulp.task('watch', function(cb) {
+gulp.task('watch', function() {
   // Watch the sass files
   gulp.watch('sass/**/*.scss', ['styles']);
   gulp.watch('js/*.js', ['scripts']);
-  cb();
 });
 
 // Generate POT files
@@ -115,11 +104,11 @@ gulp.task('info', function(cb) {
 // Just build files including externals
 gulp.task('build', runSequence('frontend', 'makepot', 'info'));
 
-// Run all tasks by default
-gulp.task('default', runSequence('build'));
-
 // Build frontend assets
 gulp.task('frontend', runSequence('styles', 'scripts'));
 
 // All scripts
 gulp.task('scripts', runSequence('frontend_scripts', 'admin_scripts'));
+
+// Default task
+gulp.task('default', runSequence('build', 'watch'));
