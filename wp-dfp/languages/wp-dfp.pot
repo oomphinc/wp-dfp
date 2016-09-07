@@ -7,14 +7,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n\n"
-
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: wp-dfp/wp-dfp-admin.php:82
 msgid "Clone"
 msgstr ""
 
 #: wp-dfp/wp-dfp-admin.php:154
-msgid "WP_DFP: You have not specified your DFP network code. You can set your network code by going to the <a href="%s">WP DFP settings page</a>"
+msgid "WP_DFP: You have not specified your DFP network code. You can set your network code by going to the <a href=\"%s\">WP DFP settings page</a>"
 msgstr ""
 
 #: wp-dfp/wp-dfp-admin.php:157
@@ -58,7 +62,7 @@ msgid "This is an out-of-page slot."
 msgstr ""
 
 #: wp-dfp/wp-dfp-admin.php:299
-msgid "Click "Add Rule" below to specify a new sizing rule."
+msgid "Click \"Add Rule\" below to specify a new sizing rule."
 msgstr ""
 
 #: wp-dfp/wp-dfp-admin.php:302
@@ -94,7 +98,7 @@ msgid "Enter Ad slot name here"
 msgstr ""
 
 #: wp-dfp/wp-dfp-frontend.php:186
-msgid "WP_DFP: You must supply your DFP network code in the <a target="_blank" href="%s">WP DFP settings</a> screen."
+msgid "WP_DFP: You must supply your DFP network code in the <a target=\"_blank\" href=\"%s\">WP DFP settings</a> screen."
 msgstr ""
 
 #: wp-dfp/wp-dfp-settings.php:85

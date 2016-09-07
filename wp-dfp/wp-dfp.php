@@ -9,7 +9,7 @@ Author:      Oomph, Inc.
 Author URI:  http://www.oomphinc.com
 Domain Path: /languages
 Text Domain: wp-dfp
-License:     GPL2 or later
+License:     MIT
 
 Copyright 2016 Oomph, Inc. <http://www.oomphinc.com>
 
