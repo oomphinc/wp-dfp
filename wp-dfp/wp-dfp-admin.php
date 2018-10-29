@@ -389,13 +389,18 @@ class WP_DFP_Admin {
 				$rules[ $key ] = array();
 				$sizes = explode( "\n", $values['sizes'] );
 
+				// remove any extra whitespace
+				$sizes = array_map( 'trim', $sizes );
+
 				foreach ( $sizes as $size ) {
-					// split size string into an array
-					$size = explode( 'x', strtolower( $size ) );
-					// remove any extra whitespace
-					$size = array_map( 'trim', $size );
-					// make sure values are integers
-					$size = array_map( 'intval', $size );
+					// "fluid" is an allowable size
+					if ( $size !== 'fluid' ) {
+						// split size string into an array
+						$size = explode( 'x', strtolower( $size ) );
+
+						// make sure values are integers
+						$size = array_map( 'intval', $size );
+					}
 
 					$rules[ $key ][] = $size;
 				}

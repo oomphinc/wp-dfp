@@ -137,7 +137,7 @@ class WP_DFP_Ad_Slot {
 		if ( !$this->post instanceof WP_Post ) {
 			return '';
 		}
-		
+
 		/**
 		 * Filter the ad container HTML attributes array
 		 *
@@ -167,7 +167,7 @@ class WP_DFP_Ad_Slot {
 		$ad_atts = apply_filters( 'wp_dfp_ad_slot/ad_atts', array(
 			'class' => $classes,
 			'id'    => $this->get_id( 'wp-dfp-ad-unit-' . $this->post->post_title ),
-		), $this->slot() );
+		), $this->slot(), $this->sizes() );
 
 		// Set the size mapping for this ad unit
 		$ad_atts['data-size-mapping'] = $this->slot();
